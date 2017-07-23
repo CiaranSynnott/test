@@ -1,0 +1,2 @@
+json.extract! item, :id, :title, :category, :description, :cost_price, :selling_price, :image_url, :brand, :supplier, :qty_in_stock, :order_no, :size, :features, :specification, :rider_position, :rider_profile, :created_at, :updated_at
+json.url item_url(item, format: :json)

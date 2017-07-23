@@ -1,0 +1,55 @@
+<h1>Your Cart</h1>
+
+<% if @cart.empty? %>
+<p> Your Cart is empty.</p>
+<%end%>
+
+<% total = 0 %>
+
+<table class="cart">
+<tr>
+    <td class="legend"></td>
+    <td class="legend">Item</td>
+    <td class="legend">Price</td>
+    <td class="legend">Qty</td>
+    <td class="legend">Total</td>
+    <td class="legend">Qty In Stock</td>
+</tr>
+
+<% @cart.each do |id,quantity | %>
+<% item = Item.find_by_id(id) %>
+<tr>
+    <td>
+        <div class="image">
+            <%= link_to (image_tag item.image_url, :style => "height:40px"), item %>
+            
+        </div>
+    </td>
+    
+    <td class="title"><%=link_to item.title, item %></td>
+    <td class="cost"><%=number_to_currency(item.cost_price) %></td>
+    <td class="quantity"><%= quantity %><br></td>
+    <td class="price"><%= number_to_currency(quantity*item.cost_price, :unit =>"Eur") %></td>
+    <td class="qty_in_stock"><%= link_to item.qty_in_stock, item %></td>
+   
+</tr>
+<% total += quantity *item.cost_price %>
+<% end %>
+
+<tr>
+    <td colspan ="4">
+    <div class="total">Total</div>
+    </td>
+    <td>
+    <div class="price"><%= number_to_currency(total, :unit => "Eur") %></div>
+    </td>
+</tr>
+</table>
+
+<p> 
+<%= link_to 'Continue Shopping', :controller => :items %></p>
+
+<%= button_to 'Empty Cart', @cart, method: :clearCart,
+    data: { confirm: 'are you sure?'} %>
+
+<a href="/buyitems">Proceed to Checkout</a>
